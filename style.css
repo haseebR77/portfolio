@@ -259,96 +259,147 @@ img { max-width: 100%; display: block; }
 
 /* ---------- Projects ---------- */
 
-.proj-tabs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-bottom: 40px;
+.proj-viewport {
+    position: relative;
+    overflow: hidden;
 }
-.proj-tab {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.05rem;
-    width: 58px; height: 58px;
-    border-radius: 50%;
-    border: 1.5px solid var(--line);
-    background: var(--card);
-    color: var(--body);
-    cursor: pointer;
-    transition: all .2s ease;
+.proj-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
-.proj-tab:hover { border-color: var(--accent); color: var(--accent); }
-.proj-tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(101, 40, 247, .3);
-}
-
-.proj-stage { position: relative; min-height: 440px; }
+/* Each slide is absolutely centred; JS offsets it by its circular distance
+   from the active one, so the carousel loops with no empty ends. */
 .proj-panel {
-    display: none;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 40px;
-    align-items: center;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 26px;
-    padding: 30px;
-    box-shadow: var(--shadow-md);
-}
-.proj-panel.active { display: grid; animation: fade .45s ease; }
-@keyframes fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-
-.proj-media {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 62%;
     border-radius: 16px;
     overflow: hidden;
     background: #0d0614;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+    transition: transform .6s cubic-bezier(0.4, 0, 0.2, 1), opacity .5s ease, filter .5s ease, box-shadow .6s ease;
+    cursor: pointer;
+    user-select: none;
 }
+.proj-panel.is-active {
+    box-shadow: 0 26px 60px rgba(101, 40, 247, .4); /* accent glow on the focused one */
+    cursor: default;
+}
+.proj-panel .proj-info { display: none; } /* project text shows in .proj-detail below */
+
+/* Carousel controls */
+.proj-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 34px;
+}
+.proj-arrow {
+    width: 52px; height: 52px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.proj-arrow svg { width: 22px; height: 22px; }
+.proj-arrow:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+}
+.proj-dots {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.proj-dot {
+    width: 10px; height: 10px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--lav);
+    cursor: pointer;
+    transition: width .25s ease, background .25s ease;
+}
+.proj-dot.active {
+    width: 28px;
+    border-radius: 6px;
+    background: var(--accent);
+}
+
+.proj-media { background: #0d0614; }
 .proj-media img,
 .proj-media video { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 
+/* Active project's text, shown below the coverflow */
+.proj-detail {
+    max-width: 640px;
+    margin: 30px auto 0;
+    text-align: center;
+}
+.proj-detail .proj-title { font-size: 1.6rem; margin-bottom: 10px; }
+.proj-detail .proj-lead { font-size: 1rem; margin-bottom: 16px; }
+.proj-detail .proj-subhead { margin-bottom: 8px; }
+.proj-detail .proj-features {
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 16px;
+}
+.proj-detail .proj-features li { font-size: 0.95rem; margin-bottom: 7px; }
+.proj-detail .proj-tags { justify-content: center; margin-bottom: 18px; }
+.proj-detail .proj-links { justify-content: center; }
+
 .proj-subhead {
     font-weight: 700;
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--accent);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .proj-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.7rem;
+    font-size: 1.35rem;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
-.proj-lead { margin-bottom: 20px; }
-.proj-features { list-style: none; margin-bottom: 22px; }
+.proj-lead { font-size: 0.92rem; margin-bottom: 12px; }
+.proj-features { list-style: none; margin-bottom: 14px; }
 .proj-features li {
     position: relative;
-    padding-left: 26px;
-    margin-bottom: 10px;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
 }
 .proj-features li::before {
     content: "";
     position: absolute;
-    left: 0; top: 9px;
-    width: 8px; height: 8px;
+    left: 0; top: 7px;
+    width: 7px; height: 7px;
     border-radius: 50%;
     background: var(--accent);
 }
-.proj-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
 .proj-tags span {
-    font-size: 0.8rem;
+    font-size: 0.74rem;
     font-weight: 600;
     color: var(--accent);
     background: var(--lav);
-    padding: 5px 14px;
+    padding: 4px 11px;
     border-radius: 40px;
 }
 .proj-links { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -469,7 +520,7 @@ img { max-width: 100%; display: block; }
 @media (max-width: 1024px) {
     .wrap { padding: 0 24px; }
     .hero-inner { gap: 40px; }
-    .proj-panel { gap: 30px; padding: 24px; }
+    .proj-panel { width: 72%; }
 }
 
 /* Collapse nav to a hamburger before the links get cramped */
@@ -504,8 +555,7 @@ img { max-width: 100%; display: block; }
     .hero-photo { order: -1; }
 
     .skill-cards { grid-template-columns: 1fr; }
-    .proj-stage { min-height: 0; }
-    .proj-panel { grid-template-columns: 1fr; gap: 22px; padding: 22px; }
+    .proj-panel { width: 82%; }
     .proj-media img,
     .proj-media video { aspect-ratio: 16 / 10; }
     .about { grid-template-columns: 1fr; gap: 22px; }
@@ -524,10 +574,10 @@ img { max-width: 100%; display: block; }
 
     .skill-card { padding: 28px 22px; }
 
-    .proj-tabs { gap: 8px; margin-bottom: 32px; }
-    .proj-tab { width: 46px; height: 46px; font-size: 0.95rem; }
-    .proj-panel { padding: 16px; border-radius: 20px; }
-    .proj-title { font-size: 1.4rem; }
+    .proj-controls { gap: 16px; margin-top: 24px; }
+    .proj-arrow { width: 46px; height: 46px; }
+    .proj-panel { width: 86%; border-radius: 14px; }
+    .proj-detail .proj-title { font-size: 1.4rem; }
 
     .about-cards { grid-template-columns: 1fr; }
     .about-heading { font-size: clamp(1.6rem, 8vw, 2.2rem); }

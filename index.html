@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
@@ -130,16 +130,8 @@
                 </div>
 
                 <div class="proj">
-                    <div class="proj-tabs" id="projTabs">
-                        <button class="proj-tab active" data-i="0" aria-label="Project 1">01</button>
-                        <button class="proj-tab" data-i="1" aria-label="Project 2">02</button>
-                        <button class="proj-tab" data-i="2" aria-label="Project 3">03</button>
-                        <button class="proj-tab" data-i="3" aria-label="Project 4">04</button>
-                        <button class="proj-tab" data-i="4" aria-label="Project 5">05</button>
-                        <button class="proj-tab" data-i="5" aria-label="Project 6">06</button>
-                    </div>
-
-                    <div class="proj-stage" id="projStage">
+                    <div class="proj-viewport">
+                        <div class="proj-track" id="projTrack">
 
                         <!-- Project 1 -->
                         <article class="proj-panel active">
@@ -268,6 +260,18 @@
                             </div>
                         </article>
 
+                        </div>
+                    </div>
+
+                    <div class="proj-detail" id="projDetail"></div>
+
+                    <div class="proj-controls">
+                        <button class="proj-arrow" id="projPrev" aria-label="Previous project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <button class="proj-arrow" id="projNext" aria-label="Next project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -338,6 +342,6 @@
         </div>
     </footer>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=13"></script>
 </body>
 </html>
