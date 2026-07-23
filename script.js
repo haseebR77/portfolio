@@ -44,13 +44,67 @@ const dots = [...document.querySelectorAll('.proj-dot')];
 const prevBtn = document.getElementById('projPrev');
 const nextBtn = document.getElementById('projNext');
 const detail = document.getElementById('projDetail');
+const modal = document.getElementById('projModal');
+const modalBody = document.getElementById('projModalBody');
 let projIdx = 0;
 
-// Show the active project's text below the coverflow
+// Below the coverflow: the active project's title, summary and a "View Project" button
 function updateProjectDetail() {
     if (!detail || !projPanels[projIdx]) return;
-    const info = projPanels[projIdx].querySelector('.proj-info');
-    detail.innerHTML = info ? info.innerHTML : '';
+    const panel = projPanels[projIdx];
+    const title = panel.querySelector('.proj-title');
+    const lead = panel.querySelector('.proj-lead');
+    detail.innerHTML = '';
+    if (title) {
+        const h = document.createElement('h3');
+        h.className = 'proj-title';
+        h.textContent = title.textContent.trim();
+        detail.appendChild(h);
+    }
+    if (lead) {
+        const p = document.createElement('p');
+        p.className = 'proj-lead';
+        p.textContent = lead.textContent.trim();
+        detail.appendChild(p);
+    }
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn btn-primary btn-sm';
+    btn.textContent = 'View Project';
+    btn.addEventListener('click', () => openProject(projIdx));
+    detail.appendChild(btn);
+}
+
+// Open the full project detail "page" (overlay)
+function openProject(i) {
+    const panel = projPanels[i];
+    if (!panel || !modal) return;
+    const media = panel.querySelector('.proj-media').cloneNode(true);
+    const info = panel.querySelector('.proj-info').cloneNode(true);
+    const mv = media.querySelector('video');
+    if (mv) { mv.setAttribute('controls', ''); mv.muted = true; mv.loop = true; }
+    modalBody.innerHTML = '';
+    modalBody.appendChild(media);
+    modalBody.appendChild(info);
+    if (mv) mv.play().catch(() => {});
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProject() {
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    const v = modalBody.querySelector('video');
+    if (v) v.pause();
+    document.body.style.overflow = '';
+    setTimeout(() => { modalBody.innerHTML = ''; }, 300);
+}
+
+if (modal) {
+    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeProject));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeProject(); });
 }
 
 // Play only the current slide's video, pause the rest
@@ -111,10 +165,14 @@ if (track) {
     nextBtn.addEventListener('click', () => goToProject(projIdx + 1));
     dots.forEach(d => d.addEventListener('click', () => goToProject(Number(d.dataset.i))));
 
-    // click a side (non-active) slide to bring it to the centre
+    // coverflow videos have no inline controls (they autoplay muted); a click opens the detail page
+    projPanels.forEach(p => { const v = p.querySelector('video'); if (v) v.controls = false; });
+
+    // click a side slide to centre it; click the centred one to open its detail page
     projPanels.forEach((p, i) => {
-        p.addEventListener('click', (e) => {
-            if (i !== projIdx) { e.preventDefault(); goToProject(i); }
+        p.addEventListener('click', () => {
+            if (i !== projIdx) goToProject(i);
+            else openProject(i);
         });
     });
 

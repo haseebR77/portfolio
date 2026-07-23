@@ -274,7 +274,7 @@ img { max-width: 100%; display: block; }
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 62%;
+    width: 55%;
     border-radius: 16px;
     overflow: hidden;
     background: #0d0614;
@@ -360,6 +360,74 @@ img { max-width: 100%; display: block; }
 .proj-detail .proj-features li { font-size: 0.95rem; margin-bottom: 7px; }
 .proj-detail .proj-tags { justify-content: center; margin-bottom: 18px; }
 .proj-detail .proj-links { justify-content: center; }
+.proj-detail .btn { margin-top: 4px; }
+
+/* Project detail overlay ("page" that opens on click) */
+.proj-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+.proj-modal.open { opacity: 1; visibility: visible; }
+.proj-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 6, 20, .62);
+    backdrop-filter: blur(4px);
+}
+.proj-modal-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 820px;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--card);
+    border-radius: 22px;
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+    transform: translateY(18px) scale(.98);
+    transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.proj-modal.open .proj-modal-card { transform: none; }
+.proj-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 0;
+    background: var(--bg);
+    color: var(--ink);
+    cursor: pointer;
+    z-index: 2;
+    transition: background .2s ease, color .2s ease;
+}
+.proj-modal-close svg { width: 20px; height: 20px; }
+.proj-modal-close:hover { background: var(--lav); color: var(--accent); }
+.proj-modal-body .proj-media { border-radius: 14px; overflow: hidden; margin-bottom: 22px; background: #0d0614; }
+.proj-modal-body .proj-media video,
+.proj-modal-body .proj-media img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.proj-modal-body .proj-info { display: block; }
+.proj-modal-body .proj-title { font-size: 1.8rem; margin-bottom: 12px; }
+.proj-modal-body .proj-lead { font-size: 1.05rem; color: var(--ink); font-weight: 500; margin-bottom: 20px; }
+.proj-body { margin-bottom: 14px; }
+.proj-modal-body .proj-body { font-size: 1rem; line-height: 1.75; }
+.proj-modal-body .proj-subhead { margin-top: 22px; }
+.proj-modal-body .proj-features { margin-bottom: 20px; }
+.proj-modal-body .proj-features li { font-size: 0.98rem; margin-bottom: 8px; padding-left: 22px; }
+.proj-modal-body .proj-tags { margin-bottom: 22px; }
+.proj-modal-body .proj-links { display: flex; gap: 12px; flex-wrap: wrap; }
 
 .proj-subhead {
     font-weight: 700;

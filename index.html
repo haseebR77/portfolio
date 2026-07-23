@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=13">
+    <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
 
@@ -141,6 +141,9 @@
                             <div class="proj-info">
                                 <h3 class="proj-title">Football Match Video Analysis</h3>
                                 <p class="proj-lead">I ran the detection model across full match footage to make an annotated video that marks the ball and the goalpost through every frame.</p>
+                                <p class="proj-subhead">Overview</p>
+                                <p class="proj-body">This project takes the object-detection model I trained and applies it to a full match instead of single frames. I run the footage through the model frame by frame, and for each frame it marks the ball and the goalpost with a bounding box and a confidence score, then writes it all back out as an annotated clip.</p>
+                                <p class="proj-body">The point was to see how the model holds up on real, moving footage, where there is motion blur, changing camera angles, and players getting in the way. It also gives me a base to grow toward tracking players and detecting shots on goal.</p>
                                 <p class="proj-subhead">Use cases</p>
                                 <ul class="proj-features">
                                     <li>Reviewing match footage automatically instead of by hand</li>
@@ -161,6 +164,9 @@
                             <div class="proj-info">
                                 <h3 class="proj-title">Smart Fridge Checkout System</h3>
                                 <p class="proj-lead">A computer-vision system for an autonomous smart fridge. Cameras inside the unit detect every product a customer takes and build a live, itemized bill in real time, with no scanning or cashier needed.</p>
+                                <p class="proj-subhead">Overview</p>
+                                <p class="proj-body">This is a computer-vision system for an autonomous smart fridge, the kind of unattended unit where a customer opens the door, takes what they want, and leaves. Cameras inside the fridge watch the shelves, and the model detects each product as it is picked up.</p>
+                                <p class="proj-body">As items are removed, the system builds a live, itemized bill in real time, adding each product with its price and updating the running total, so the customer is charged automatically with no scanning, no barcodes, and no cashier. It is a practical take on grab-and-go retail.</p>
                                 <p class="proj-subhead">Key features</p>
                                 <ul class="proj-features">
                                     <li>Real-time product detection from multiple in-fridge cameras</li>
@@ -182,6 +188,9 @@
                             <div class="proj-info">
                                 <h3 class="proj-title">TaskPilot AI Agent</h3>
                                 <p class="proj-lead">An AI agent that turns a plain-language request or an uploaded document into a finished result. It understands the task, plans the steps, picks the right tools, and runs them to reach an answer.</p>
+                                <p class="proj-subhead">Overview</p>
+                                <p class="proj-body">TaskPilot is an AI agent that takes a plain-language request, or an uploaded document, and works through it from start to finish. It first understands what kind of task it is, then plans the steps, decides which tools it needs, runs them, and returns a final answer.</p>
+                                <p class="proj-body">Under the hood it connects an LLM to a set of tools: a calculator, web search, a file reader, and reminders. Each step is streamed to a live console so you can follow its reasoning, and it is built as a full web app with a task composer, a history of past runs, and a tools panel.</p>
                                 <p class="proj-subhead">Key features</p>
                                 <ul class="proj-features">
                                     <li>Understands a task from plain language or a document</li>
@@ -203,6 +212,10 @@
                             <div class="proj-info">
                                 <h3 class="proj-title">NUTECH Virtual Assistant Chatbot</h3>
                                 <p class="proj-lead">A chatbot that answers common questions about NUTECH, like admissions, programs, facilities, and student life.</p>
+                                <p class="proj-subhead">Overview</p>
+                                <p class="proj-body">This is a chatbot that answers the questions new and prospective students actually ask about NUTECH: admissions, programs, fees, facilities, and student life. I built the question-matching in plain JavaScript with a keyword approach, so it runs entirely in the browser with no backend.</p>
+                                <p class="proj-body">It has a simple real-time chat interface and covers the main information sections you would normally have to dig through a university website to find, packaged into a quick conversational format.</p>
+                                <p class="proj-subhead">Key features</p>
                                 <ul class="proj-features">
                                     <li>Keyword-based question matching written in plain JavaScript</li>
                                     <li>Simple, real-time chat interface</li>
@@ -226,6 +239,10 @@
                             <div class="proj-info">
                                 <h3 class="proj-title">Inventory Management AI Agent</h3>
                                 <p class="proj-lead">An automation built in n8n that handles inventory tasks by wiring a few APIs together, with no full backend needed.</p>
+                                <p class="proj-subhead">Overview</p>
+                                <p class="proj-body">This is an automation I built in n8n to handle routine inventory work without writing a full backend. It connects a few APIs into one workflow that can search for products, update stock levels, and add new items.</p>
+                                <p class="proj-body">I built it mainly to learn how to design automation workflows, wiring triggers, API calls, and webhooks together, and to see how much repetitive inventory work a well-designed flow can take over.</p>
+                                <p class="proj-subhead">Key features</p>
                                 <ul class="proj-features">
                                     <li>Searches for products, updates stock, and adds new items</li>
                                     <li>Connects multiple APIs into one workflow</li>
@@ -248,6 +265,9 @@
                             <div class="proj-info">
                                 <h3 class="proj-title">Football Object Detection System</h3>
                                 <p class="proj-lead">A custom YOLOv8 model that detects the ball and the goalpost in football frames, drawing bounding boxes with confidence scores.</p>
+                                <p class="proj-subhead">Overview</p>
+                                <p class="proj-body">This is the object-detection model at the core of my football work. I trained a custom YOLOv8 model to recognise the ball and the goalpost in football frames, and it draws a bounding box with a confidence score around each one it finds.</p>
+                                <p class="proj-body">It is built in Python with OpenCV and PyTorch, and it is the foundation the video-analysis project builds on: the same model, applied to full match footage.</p>
                                 <p class="proj-subhead">Key features</p>
                                 <ul class="proj-features">
                                     <li>Custom-trained YOLOv8 detection model</li>
@@ -342,6 +362,17 @@
         </div>
     </footer>
 
-    <script src="script.js?v=13"></script>
+    <!-- Project detail overlay -->
+    <div class="proj-modal" id="projModal" aria-hidden="true">
+        <div class="proj-modal-backdrop" data-close></div>
+        <div class="proj-modal-card" role="dialog" aria-modal="true" aria-label="Project details">
+            <button class="proj-modal-close" data-close aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="proj-modal-body" id="projModalBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js?v=14"></script>
 </body>
 </html>
