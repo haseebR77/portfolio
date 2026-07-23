@@ -1,0 +1,11 @@
+# Large source videos — the compressed web versions (annotated_web.mp4,
+# taskpilot_web.mp4) are committed instead. Originals are too big for GitHub.
+taskpilot.mp4
+annotated.mp4
+
+# Local source files not needed in the repo
+WhatsApp Image*.jpeg
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
