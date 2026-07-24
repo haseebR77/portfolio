@@ -27,7 +27,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 
 body {
     font-family: var(--font-body);
@@ -274,7 +274,7 @@ img { max-width: 100%; display: block; }
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 55%;
+    width: 42%;
     border-radius: 16px;
     overflow: hidden;
     background: #0d0614;
@@ -286,7 +286,7 @@ img { max-width: 100%; display: block; }
     user-select: none;
 }
 .proj-panel.is-active {
-    box-shadow: 0 26px 60px rgba(101, 40, 247, .4); /* accent glow on the focused one */
+    box-shadow: var(--shadow-lg);
     cursor: default;
 }
 .proj-panel .proj-info { display: none; } /* project text shows in .proj-detail below */
@@ -296,7 +296,7 @@ img { max-width: 100%; display: block; }
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 24px;
     margin-top: 34px;
 }
 .proj-arrow {

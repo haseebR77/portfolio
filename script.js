@@ -79,6 +79,7 @@ function updateProjectDetail() {
 function openProject(i) {
     const panel = projPanels[i];
     if (!panel || !modal) return;
+    stopAuto();
     const media = panel.querySelector('.proj-media').cloneNode(true);
     const info = panel.querySelector('.proj-info').cloneNode(true);
     const mv = media.querySelector('video');
@@ -100,6 +101,7 @@ function closeProject() {
     if (v) v.pause();
     document.body.style.overflow = '';
     setTimeout(() => { modalBody.innerHTML = ''; }, 300);
+    startAuto();
 }
 
 if (modal) {
@@ -127,16 +129,16 @@ function layoutProjects(animate) {
     viewport.style.height = Math.round(slideH + 30) + 'px'; // 16:9 media + shadow room
 
     const n = projPanels.length;
-    const spacing = slideW * 0.98;               // horizontal gap between slides (space around each)
+    const spacing = slideW * 1.03;               // horizontal step between slides (3 cards show)
 
     projPanels.forEach((p, i) => {
         let off = i - projIdx;
         if (off > n / 2) off -= n;                // wrap to the shortest direction
         if (off < -n / 2) off += n;
         const abs = Math.abs(off);
-        const scale = off === 0 ? 1 : (abs === 1 ? 0.82 : 0.7);
-        const opacity = abs === 0 ? 1 : (abs === 1 ? 0.55 : 0);
-        const blur = abs === 0 ? 0 : (abs === 1 ? 4 : 9);
+        const scale = off === 0 ? 1 : (abs === 1 ? 0.94 : 0.8);   // side cards nearly full size
+        const opacity = abs === 0 ? 1 : (abs === 1 ? 0.82 : 0);   // only lightly faded
+        const blur = abs === 0 ? 0 : (abs === 1 ? 0 : 6);         // no blur on the visible sides
 
         if (!animate) p.style.transition = 'none';
         p.style.transform = `translate(-50%, -50%) translateX(${off * spacing}px) scale(${scale})`;
@@ -160,32 +162,72 @@ function goToProject(i) {
     layoutProjects(true);
 }
 
+// Auto-play: keep advancing to the next project on a continuous loop
+let autoId = null;
+const AUTO_MS = 4000;
+function startAuto() {
+    if (!track || projPanels.length < 2) return;
+    clearTimeout(autoId);
+    (function run() {
+        autoId = setTimeout(() => { goToProject(projIdx + 1); run(); }, AUTO_MS);
+    })();
+}
+function stopAuto() { clearTimeout(autoId); autoId = null; }
+
 if (track) {
-    prevBtn.addEventListener('click', () => goToProject(projIdx - 1));
-    nextBtn.addEventListener('click', () => goToProject(projIdx + 1));
-    dots.forEach(d => d.addEventListener('click', () => goToProject(Number(d.dataset.i))));
+    const viewport = track.parentElement;
+    viewport.style.touchAction = 'pan-y';   // let vertical scroll through, horizontal is our drag
+    viewport.style.cursor = 'grab';
+
+    prevBtn.addEventListener('click', () => { goToProject(projIdx - 1); startAuto(); });
+    nextBtn.addEventListener('click', () => { goToProject(projIdx + 1); startAuto(); });
+    dots.forEach(d => d.addEventListener('click', () => { goToProject(Number(d.dataset.i)); startAuto(); }));
 
     // coverflow videos have no inline controls (they autoplay muted); a click opens the detail page
     projPanels.forEach(p => { const v = p.querySelector('video'); if (v) v.controls = false; });
 
+    // --- drag to move (mouse + touch), pauses auto-play while dragging ---
+    let downX = 0, dragDelta = 0, isDown = false, dragMoved = false;
+
+    viewport.addEventListener('pointerdown', (e) => {
+        if (e.button !== undefined && e.button !== 0) return; // left button / touch only
+        isDown = true; dragMoved = false; downX = e.clientX; dragDelta = 0;
+        track.style.transition = 'none';
+        viewport.style.cursor = 'grabbing';
+        stopAuto();
+    });
+    window.addEventListener('pointermove', (e) => {
+        if (!isDown) return;
+        dragDelta = e.clientX - downX;
+        if (Math.abs(dragDelta) > 6) dragMoved = true;
+        track.style.transform = `translateX(${dragDelta}px)`; // whole set follows the drag
+    });
+    const endDrag = () => {
+        if (!isDown) return;
+        isDown = false;
+        viewport.style.cursor = 'grab';
+        track.style.transition = 'transform .45s cubic-bezier(0.4, 0, 0.2, 1)';
+        track.style.transform = 'translateX(0px)';           // snap the track back
+        if (Math.abs(dragDelta) > 45) goToProject(projIdx + (dragDelta < 0 ? 1 : -1));
+        startAuto();
+    };
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+
     // click a side slide to centre it; click the centred one to open its detail page
+    // (skipped when the pointer was actually dragged)
     projPanels.forEach((p, i) => {
         p.addEventListener('click', () => {
-            if (i !== projIdx) goToProject(i);
-            else openProject(i);
+            if (dragMoved) return;
+            if (i !== projIdx) { goToProject(i); startAuto(); }
+            else openProject(i); // opens detail; auto-play stays paused until it closes
         });
     });
 
-    // swipe on touch devices
-    const viewport = track.parentElement;
-    let startX = 0, swiping = false;
-    viewport.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; swiping = true; }, { passive: true });
-    viewport.addEventListener('touchend', (e) => {
-        if (!swiping) return;
-        swiping = false;
-        const dx = e.changedTouches[0].clientX - startX;
-        if (Math.abs(dx) > 40) goToProject(projIdx + (dx < 0 ? 1 : -1));
-    });
+    // pause auto-play on hover so you can read, resume on leave; pause when tab is hidden
+    viewport.addEventListener('mouseenter', stopAuto);
+    viewport.addEventListener('mouseleave', startAuto);
+    document.addEventListener('visibilitychange', () => { document.hidden ? stopAuto() : startAuto(); });
 
     // re-centre on resize, and once fonts/images settle
     let rz;
@@ -193,6 +235,7 @@ if (track) {
     window.addEventListener('load', () => layoutProjects(false));
 
     layoutProjects(false);
+    startAuto(); // begin the automatic loop
 }
 
 // Gentle fade-in as sections scroll into view
