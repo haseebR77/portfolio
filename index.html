@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=23">
 </head>
 <body>
 
@@ -114,6 +114,34 @@
                     <li>React / Next.js</li>
                     <li>WordPress</li>
                 </ul>
+
+                <div class="logos" aria-label="Technologies I use">
+                    <div class="logos-track">
+                        <img class="logo" src="assets/logos/python.svg" alt="Python">
+                        <img class="logo" src="assets/logos/pytorch.svg" alt="PyTorch">
+                        <img class="logo" src="assets/logos/tensorflow.svg" alt="TensorFlow">
+                        <img class="logo" src="assets/logos/opencv.svg" alt="OpenCV">
+                        <img class="logo" src="assets/logos/javascript.svg" alt="JavaScript">
+                        <img class="logo" src="assets/logos/nodejs.svg" alt="Node.js">
+                        <img class="logo" src="assets/logos/react.svg" alt="React">
+                        <img class="logo" src="assets/logos/docker.svg" alt="Docker">
+                        <img class="logo" src="assets/logos/github.svg" alt="GitHub">
+                        <img class="logo" src="assets/logos/vercel.svg" alt="Vercel">
+                        <img class="logo" src="assets/logos/aws.svg" alt="AWS">
+                        <!-- duplicate set for a seamless loop -->
+                        <img class="logo" src="assets/logos/python.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/pytorch.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/tensorflow.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/opencv.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/javascript.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/nodejs.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/react.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/docker.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/github.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/vercel.svg" alt="" aria-hidden="true">
+                        <img class="logo" src="assets/logos/aws.svg" alt="" aria-hidden="true">
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -126,13 +154,17 @@
                 </div>
 
                 <div class="proj">
+                    <div class="proj-marquee" id="projMarquee">
+                        <div class="proj-marquee-track" id="projMarqueeTrack"></div>
+                    </div>
+
                     <div class="proj-viewport">
                         <div class="proj-track" id="projTrack">
 
                         <!-- Project 1 -->
                         <article class="proj-panel active">
                             <div class="proj-media">
-                                <video class="proj-video" src="annotated_web.mp4" poster="SS.png" controls loop muted playsinline preload="metadata"></video>
+                                <video class="proj-video" src="annotated_web.mp4" poster="annotated_poster.jpg" controls loop muted playsinline preload="metadata"></video>
                             </div>
                             <div class="proj-info">
                                 <h3 class="proj-title">Football Match Video Analysis</h3>
@@ -380,6 +412,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=17"></script>
+    <script src="script.js?v=20"></script>
 </body>
 </html>
